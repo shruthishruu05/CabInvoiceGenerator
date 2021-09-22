@@ -2,20 +2,27 @@ package com.bridgelabz.cabinvoicegenerator;
 
 public class CabInoviceGenerator implements CabInvoiceGeneratorIF 
 {
-	private static final double MINIIMUM_COST_PER_KILOMETER = 10;
-	private static final int MINIMUM_TIME = 1;
-	private static final double  MINIMUM_FARE = 5;
+	private static final double MIN_COST_PER_KM_NORMAL_RIDE = 10;
+    private static final int COST_PER_TIME_NORMAL_RIDE = 1;
+    private static final double MIN_FARE_NORMAL_RIDE = 5;
+    private static final double MIN_COST_PER_KM_PREMIUM_RIDE = 15;
+    private static final int COST_PER_TIME_PREMIUM_RIDE = 2;
+    private static final double MIN_FARE_PREMIUM_RIDE = 20;
 	
 	RideRepository rideRepository = new RideRepository();
 	
+	public enum RideType {
+        NORMAL, PREMIUM
+    }
 	public CabInoviceGenerator() {
 		
 	}
+	
 	@Override
-	public double calculateFare(double distance, int time) {
-		double totalFare = distance*MINIIMUM_COST_PER_KILOMETER+time*MINIMUM_TIME;
-		if(totalFare < MINIMUM_FARE)
-			return MINIMUM_FARE;
+	public double calculateFare(double distance, int time,RideType rideType) {
+		double totalFare = distance*MIN_COST_PER_KM_NORMAL_RIDE+time*COST_PER_TIME_NORMAL_RIDE;
+		if(totalFare < MIN_FARE_NORMAL_RIDE)
+			return MIN_FARE_NORMAL_RIDE;
 		return totalFare;
 			
 			
@@ -23,7 +30,7 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 	public double calculateFare1(Ride[] rides) {
         double totalFare = 0;
         for (Ride ride:rides) {
-            totalFare =totalFare+ this.calculateFare(ride.getDistance(), ride.getTime());
+            totalFare =totalFare+ this.calculateFare(ride.getDistance(), ride.getTime(),ride.getRideType());
         }
         return totalFare;
     }
@@ -32,7 +39,7 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 		double totalfare=0;
 		for(Ride ride : rides)
 		{
-			totalfare += this.calculateFare(ride.distance,ride.time);
+			totalfare += this.calculateFare(ride.getDistance(), ride.getTime(),ride.getRideType());
 		}
 		return new InvoiceSummary(rides.length, totalfare);
 	}
@@ -44,5 +51,20 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 		// TODO Auto-generated method stub
 		return this.calculateFare(rideRepository.getRides(userId));
 	}
+	public double calculateBasedOnRideType(double distance, int time, RideType rideType) 
+    {
+		double totalFare=0;
+        if(rideType == RideType.PREMIUM)
+        {
+        	return totalFare = Math.max(distance * MIN_COST_PER_KM_PREMIUM_RIDE + time * COST_PER_TIME_PREMIUM_RIDE,
+	                    MIN_FARE_PREMIUM_RIDE);	
+        }
+        else if(rideType == RideType.NORMAL) {
+           
+           return totalFare= Math.max(distance * MIN_COST_PER_KM_NORMAL_RIDE + time * COST_PER_TIME_NORMAL_RIDE,
+                    MIN_FARE_NORMAL_RIDE);
+        }
+		return time;
+    }
 
 }
