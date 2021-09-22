@@ -19,5 +19,14 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 			
 			
 	}
+	public double calculateFare(Ride[] rides) {
+		// TODO Auto-generated method stub
+		double totalfare=0;
+		for(Ride ride : rides)
+		{
+			totalfare += this.calculateFare(ride.distance,ride.time);
+		}
+		return totalfare;
+	}
 
 }
