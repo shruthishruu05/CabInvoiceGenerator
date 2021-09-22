@@ -6,6 +6,7 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 	private static final int MINIMUM_TIME = 1;
 	private static final double  MINIMUM_FARE = 5;
 	
+	RideRepository rideRepository = new RideRepository();
 	
 	public CabInoviceGenerator() {
 		
@@ -34,6 +35,14 @@ public class CabInoviceGenerator implements CabInvoiceGeneratorIF
 			totalfare += this.calculateFare(ride.distance,ride.time);
 		}
 		return new InvoiceSummary(rides.length, totalfare);
+	}
+	public void addRides(String userId, Ride[] rides) {
+		// TODO Auto-generated method stub
+		rideRepository.addRides(userId, rides);
+	}
+	public InvoiceSummary getInvoiceSummary(String userId) {
+		// TODO Auto-generated method stub
+		return this.calculateFare(rideRepository.getRides(userId));
 	}
 
 }
