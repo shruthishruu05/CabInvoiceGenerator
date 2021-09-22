@@ -28,4 +28,15 @@ public class InvoiceServiceTest {
 		Assert.assertEquals(5, minfare,0.0);
 
 	}
-}
+	@Test
+	public void GivenMultipleRides_ShouldReturnTotalOfAll()  {
+		CabInoviceGenerator cabInoviceGenerator = new  CabInoviceGenerator();
+		Ride[] rides = { new Ride(2.0,5),
+							new Ride(0.1,1)
+						};
+		double fare= cabInoviceGenerator.calculateFare(rides);
+		Assert.assertEquals(30, fare,0.0);
+				
+		}
+	}
+
