@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Arrays;
 
-public class RideRepository {
+public class RideRepository 
+{
     Map<String, ArrayList<Ride>> userRides;
 
     public RideRepository() {
