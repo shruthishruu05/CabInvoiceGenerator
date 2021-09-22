@@ -1,6 +1,7 @@
 package com.bridgelabz.cabinvoicegenerator;
 
-public class CabInoviceGenerator implements CabInvoiceGeneratorIF {
+public class CabInoviceGenerator implements CabInvoiceGeneratorIF 
+{
 	private static final double MINIIMUM_COST_PER_KILOMETER = 10;
 	private static final int MINIMUM_TIME = 1;
 	private static final double  MINIMUM_FARE = 5;
